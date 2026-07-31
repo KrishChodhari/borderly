@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>borderly — Travel Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">&#10038;</span>
+    <div>
+      <h1>borderly</h1>
+      <p class="brand-sub">Travel ledger &amp; residency tracker</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <label class="select-wrap">
+      <span>Traveler</span>
+      <select id="personFilter">
+        <option value="all">All travelers</option>
+      </select>
+    </label>
+
+    <label class="select-wrap">
+      <span>Period</span>
+      <select id="periodFilter">
+        <option value="fy" selected>This Financial Year</option>
+        <option value="fy-prev">Last Financial Year</option>
+        <option value="calendar">This Calendar Year</option>
+        <option value="all">All Time</option>
+        <option value="custom">Custom Range</option>
+      </select>
+    </label>
+
+    <div class="custom-range" id="customRange" hidden>
+      <input type="date" id="rangeStart" aria-label="Range start" />
+      <span aria-hidden="true">&ndash;</span>
+      <input type="date" id="rangeEnd" aria-label="Range end" />
+    </div>
+  </div>
+
+  <button id="addBtn" class="stamp-btn" title="Add a stamp" type="button">
+    <span class="stamp-btn-ring">+</span>
+    <span class="stamp-btn-label">Add stamp</span>
+  </button>
+</header>
+
+<main>
+  <p class="range-banner" id="rangeBanner"></p>
+
+  <p class="empty-state" id="emptyState" hidden>
+    No stamps yet. Use <strong>Add stamp</strong> in the top right to log your first arrival or departure.
+  </p>
+
+  <div class="tabs" role="tablist" aria-label="View">
+    <button type="button" class="tab active" id="tabBtnDashboard" role="tab" aria-selected="true" aria-controls="dashboardTab">Dashboard</button>
+    <button type="button" class="tab" id="tabBtnLedger" role="tab" aria-selected="false" aria-controls="ledgerTab">Ledger</button>
+  </div>
+
+  <div id="dashboardTab" role="tabpanel" aria-labelledby="tabBtnDashboard">
+    <section class="cards" id="personCards" aria-label="Per-traveler summary"></section>
+
+    <section class="panel matrix-section" id="matrixSection">
+      <h2>Days by country</h2>
+      <div class="table-wrap">
+        <table id="matrixTable"></table>
+      </div>
+    </section>
+  </div>
+
+  <div id="ledgerTab" role="tabpanel" aria-labelledby="tabBtnLedger" hidden>
+    <section class="panel ledger-section" id="ledgerSection">
+      <div class="ledger-head">
+        <h2>Stamp ledger</h2>
+        <span class="hint">Inclusive of arrival &amp; departure dates</span>
+      </div>
+      <div class="table-wrap">
+        <table id="ledgerTable">
+          <thead>
+            <tr>
+              <th>Traveler</th>
+              <th>Stamp</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th aria-label="Actions"></th>
+            </tr>
+          </thead>
+          <tbody id="ledgerBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <form class="modal stamp-modal" id="stampForm" novalidate>
+    <div class="modal-head">
+      <h2>New stamp</h2>
+      <button type="button" class="icon-btn" id="closeModal" aria-label="Close">&times;</button>
+    </div>
+
+    <label>Person name
+      <select id="fPerson" required>
+        <option value="" disabled selected>Select a person</option>
+        <option value="Amisha">Amisha</option>
+        <option value="Avkash">Avkash</option>
+        <option value="Bobby">Bobby</option>
+        <option value="Krish">Krish</option>
+      </select>
+    </label>
+
+    <label>Stamp type
+      <select id="fType" required>
+        <option value="arrival">Arrival</option>
+        <option value="departure">Departure</option>
+      </select>
+    </label>
+
+    <label>Country
+      <input type="text" id="fCountry" required placeholder="e.g. Portugal" autocomplete="off" />
+    </label>
+
+    <label>Date <span class="hint">DD/MM/YYYY</span>
+      <input type="text" id="fDate" required placeholder="10/02/2026" inputmode="numeric" autocomplete="off" />
+    </label>
+
+    <p class="form-error" id="formError" hidden></p>
+
+    <div class="modal-foot">
+      <button type="button" class="btn-ghost" id="cancelModal">Cancel</button>
+      <button type="submit" class="btn-primary">Add stamp</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

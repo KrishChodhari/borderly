@@ -1,0 +1,536 @@
+/* ---------------------------------------------------------
+   Design tokens
+   Concept: an open passport — dark cover, cream pages,
+   brass foil accents, ink-stamp reds & teals for entries.
+--------------------------------------------------------- */
+:root {
+  --ink:        #1C2B33;   /* passport cover / deep teal-navy */
+  --ink-2:      #142027;
+  --paper:      #F3EFE3;   /* aged page */
+  --paper-2:    #E9E2D0;   /* recessed page / table stripe */
+  --line:       #D8CFB8;   /* hairline rule on paper */
+  --text:       #241F17;
+  --text-soft:  #6B6153;
+  --gold:       #A9812F;   /* foil accent */
+  --gold-soft:  #C7A75B;
+  --stamp-teal: #2F6E62;   /* arrival ink */
+  --stamp-red:  #A03A2C;   /* departure ink */
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius: 10px;
+  --shadow-card: 0 1px 0 rgba(28,43,51,0.05), 0 8px 24px -12px rgba(28,43,51,0.25);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 500px at 15% -10%, #24404A 0%, transparent 60%),
+    var(--ink);
+}
+
+::selection { background: var(--gold-soft); color: var(--ink); }
+
+:focus-visible {
+  outline: 2px solid var(--gold-soft);
+  outline-offset: 2px;
+}
+
+h1, h2 { font-family: var(--font-display); margin: 0; }
+
+/* ---------------- Topbar (passport cover) ---------------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 22px clamp(16px, 4vw, 48px);
+  color: var(--paper);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.brand-mark {
+  font-size: 22px;
+  color: var(--gold-soft);
+  transform: translateY(-1px);
+}
+
+.brand h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.brand-sub {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  color: #A9BAC0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+}
+
+.controls {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.select-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: #A9BAC0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+}
+
+.select-wrap select,
+.custom-range input {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--paper);
+  background: rgba(243,239,227,0.08);
+  border: 1px solid rgba(243,239,227,0.25);
+  border-radius: 7px;
+  padding: 8px 10px;
+  min-width: 168px;
+}
+
+.custom-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #A9BAC0;
+}
+.custom-range input { min-width: 140px; }
+
+.select-wrap select option { color: var(--text); }
+
+/* Stamp button — the signature element */
+.stamp-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--paper);
+  padding: 4px;
+}
+
+.stamp-btn-ring {
+  width: 42px;
+  height: 42px;
+  border: 2px dashed var(--gold-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-family: var(--font-mono);
+  color: var(--gold-soft);
+  transform: rotate(-8deg);
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.stamp-btn:hover .stamp-btn-ring {
+  transform: rotate(0deg) scale(1.05);
+  background: rgba(199,167,91,0.12);
+}
+
+.stamp-btn-label {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------------- Main / pages ---------------- */
+
+main {
+  background: var(--paper);
+  border-radius: 22px 22px 0 0;
+  padding: clamp(20px, 4vw, 48px);
+  min-height: 60vh;
+}
+
+.range-banner {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-soft);
+  letter-spacing: 0.02em;
+  margin: 0 0 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.empty-state {
+  font-size: 14.5px;
+  color: var(--text-soft);
+  background: var(--paper-2);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-soft);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 4px;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+
+.tab + .tab { margin-left: 18px; }
+
+.tab:hover { color: var(--text); }
+
+.tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--gold);
+}
+
+/* Person cards — passport bio-page style */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.person-card {
+  background: #FBF9F2;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.person-card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(28,43,51,0.06);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.person-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.person-monogram {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--gold-soft);
+  font-family: var(--font-display);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.person-card-name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.person-card-total {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+  margin: 6px 0 2px;
+}
+
+.person-card-total-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.person-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--paper-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+/* Panels */
+.panel { margin-bottom: 34px; }
+
+.panel h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ledger-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-soft);
+  text-transform: none;
+  font-weight: 400;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #FBF9F2;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--paper-2); }
+
+td.num, th.num { text-align: right; font-family: var(--font-mono); }
+
+.stamp-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid currentColor;
+}
+.stamp-tag.arrival { color: var(--stamp-teal); }
+.stamp-tag.departure { color: var(--stamp-red); }
+
+.row-delete {
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+.row-delete:hover { color: var(--stamp-red); }
+
+.matrix-total { font-weight: 600; }
+
+/* ---------------- Modal ---------------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,32,39,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-head h2 { font-size: 18px; }
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-soft);
+  line-height: 1;
+  padding: 4px;
+}
+.icon-btn:hover { color: var(--text); }
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+}
+
+.modal .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal input, .modal select {
+  font-family: var(--font-body);
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 9px 10px;
+}
+
+.form-error {
+  color: var(--stamp-red);
+  font-size: 13px;
+  margin: 0;
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-ghost, .btn-primary {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn-ghost {
+  background: none;
+  border-color: var(--line);
+  color: var(--text-soft);
+}
+.btn-ghost:hover { background: var(--paper-2); }
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover { background: var(--ink-2); }
+
+/* ---------------- Toast ---------------- */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 13.5px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+  z-index: 60;
+}
+
+/* ---------------- Responsive ---------------- */
+
+@media (max-width: 640px) {
+  .topbar { gap: 14px; }
+  .controls { width: 100%; margin-left: 0; }
+  .select-wrap select, .custom-range input { min-width: 0; flex: 1; }
+  .stamp-btn { margin-left: auto; }
+  .modal .row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-btn-ring { transition: none; }
+}
