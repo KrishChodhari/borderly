@@ -391,6 +391,19 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !els.modalBackdrop.hidden) closeModal();
 });
 
+// Auto-format the date field as DD/MM/YYYY while typing, so mobile
+// numeric keypads (which have no "/") still produce a valid date.
+els.fDate.addEventListener("input", () => {
+  const digits = els.fDate.value.replace(/\D/g, "").slice(0, 8);
+  let out = digits;
+  if (digits.length > 4) {
+    out = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+  } else if (digits.length > 2) {
+    out = `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  }
+  els.fDate.value = out;
+});
+
 els.stampForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const person = els.fPerson.value.trim();
